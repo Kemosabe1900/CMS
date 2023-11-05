@@ -4,8 +4,9 @@ export interface Note {
   clock_out?: string;
   employee_id?: string;
   client_id?: string;
-  servies?: Services;
+  services?: Services;
   comments?: string;
+  // other_comment?: string;
 }
 export interface Services {
   dressing: boolean;
@@ -21,4 +22,5 @@ export interface Services {
   health_related_functions: boolean;
   behavior: boolean;
   other: boolean;
+  other_comment?: string;
 }
