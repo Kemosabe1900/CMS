@@ -12,6 +12,25 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
 }
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+//Define the testNote object
+const testNote: Note = {
+  services: {
+    dressing: false,
+    grooming: true,
+    bathing: false,
+    eating: true,
+    transfers: false,
+    mobility: true,
+    positioning: false,
+    toileting: true,
+    light_housekeeping: false,
+    laundry: true,
+    health_related_functions: false,
+    behavior: true,
+    other: true,
+  },
+  comments: "this is wild.",
+};
 export async function add_note(note: Note): Promise<boolean> {
   const { error, data } = await supabase.from("note").insert([note]).select();
   if (error || !data) {

@@ -4,7 +4,7 @@ export interface Note {
   clock_out?: string;
   employee_id?: string;
   client_id?: string;
-  services?: Services;
+  services: Services;
   comments?: string;
   // other_comment?: string;
 }
