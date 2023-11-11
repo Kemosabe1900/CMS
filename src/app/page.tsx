@@ -1,12 +1,13 @@
 "use client";
 import Image from "next/image";
-import { Note, Services } from "./types";
+import { Note } from "./types";
 import { add_note } from "./supabase";
-import { useState } from "react";
+import React, { useState } from "react";
+
 export default function Home() {
   const [comment, setComment] = useState("");
 
-  const note: Note = {
+  const [note, setNote] = useState<Note>({
     client_id: "d0f67e95-4bc0-47d5-98d2-d21dbf4455e2",
     services: {
       dressing: false,
@@ -24,6 +25,26 @@ export default function Home() {
       other: false,
       other_comment: comment,
     },
+  });
+
+  const handleCheckboxChange = (name: string, isChecked: boolean) => {
+    setNote((prevNote) => ({
+      ...prevNote,
+      services: {
+        ...prevNote.services,
+        [name]: isChecked,
+      },
+    }));
+  };
+
+  const handleOtherChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNote((prevNote) => ({
+      ...prevNote,
+      services: {
+        ...prevNote.services,
+        other: e.target.checked,
+      },
+    }));
   };
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,15 +54,22 @@ export default function Home() {
   return (
     <div>
       {/* Add Note button */}
-      <button onClick={() => add_note(note)}>Add Note</button>
+      <button
+        style={{ backgroundColor: "blue", color: "white" }}
+        onClick={() => add_note(note)}
+      >
+        Submit form
+      </button>
       {/* checklist items */}
       <ul>
         <li>
           <label>
             <input
               type="checkbox"
-              checked={note.services?.dressing}
-              // onChange={(e) => handleDressingChange(e.target.checked)}
+              checked={note.services.dressing}
+              onChange={(e) =>
+                handleCheckboxChange("dressing", e.target.checked)
+              }
             />
             Dressing
           </label>
@@ -50,10 +78,10 @@ export default function Home() {
           <label>
             <input
               type="checkbox"
-              checked={note.services?.grooming}
-              onChange={(e) => {
-                /* handle checkbox change */
-              }}
+              checked={note.services.grooming}
+              onChange={(e) =>
+                handleCheckboxChange("grooming", e.target.checked)
+              }
             />
             Grooming
           </label>
@@ -62,10 +90,10 @@ export default function Home() {
           <label>
             <input
               type="checkbox"
-              checked={note.services?.bathing}
-              onChange={(e) => {
-                /* handle checkbox change */
-              }}
+              checked={note.services.bathing}
+              onChange={(e) =>
+                handleCheckboxChange("bathing", e.target.checked)
+              }
             />
             Bathing
           </label>
@@ -74,10 +102,8 @@ export default function Home() {
           <label>
             <input
               type="checkbox"
-              checked={note.services?.eating}
-              onChange={(e) => {
-                /* handle checkbox change */
-              }}
+              checked={note.services.eating}
+              onChange={(e) => handleCheckboxChange("eating", e.target.checked)}
             />
             Eating
           </label>
@@ -86,10 +112,10 @@ export default function Home() {
           <label>
             <input
               type="checkbox"
-              checked={note.services?.transfers}
-              onChange={(e) => {
-                /* handle checkbox change */
-              }}
+              checked={note.services.transfers}
+              onChange={(e) =>
+                handleCheckboxChange("transfers", e.target.checked)
+              }
             />
             Transfers
           </label>
@@ -98,10 +124,10 @@ export default function Home() {
           <label>
             <input
               type="checkbox"
-              checked={note.services?.mobility}
-              onChange={(e) => {
-                /* handle checkbox change */
-              }}
+              checked={note.services.mobility}
+              onChange={(e) =>
+                handleCheckboxChange("mobility", e.target.checked)
+              }
             />
             Mobility
           </label>
@@ -110,10 +136,10 @@ export default function Home() {
           <label>
             <input
               type="checkbox"
-              checked={note.services?.light_housekeeping}
-              onChange={(e) => {
-                /* handle checkbox change */
-              }}
+              checked={note.services.light_housekeeping}
+              onChange={(e) =>
+                handleCheckboxChange("light_housekeeping", e.target.checked)
+              }
             />
             Light Housekeeping
           </label>
@@ -122,10 +148,10 @@ export default function Home() {
           <label>
             <input
               type="checkbox"
-              checked={note.services?.laundry}
-              onChange={(e) => {
-                /* handle checkbox change */
-              }}
+              checked={note.services.laundry}
+              onChange={(e) =>
+                handleCheckboxChange("laundry", e.target.checked)
+              }
             />
             Laundry
           </label>
@@ -134,10 +160,13 @@ export default function Home() {
           <label>
             <input
               type="checkbox"
-              checked={note.services?.health_related_functions}
-              onChange={(e) => {
-                /* handle checkbox change */
-              }}
+              checked={note.services.health_related_functions}
+              onChange={(e) =>
+                handleCheckboxChange(
+                  "health_related_functions",
+                  e.target.checked
+                )
+              }
             />
             Health-Related Functions
           </label>
@@ -146,10 +175,10 @@ export default function Home() {
           <label>
             <input
               type="checkbox"
-              checked={note.services?.behavior}
-              onChange={(e) => {
-                /* handle checkbox change */
-              }}
+              checked={note.services.behavior}
+              onChange={(e) =>
+                handleCheckboxChange("behavior", e.target.checked)
+              }
             />
             Behavior
           </label>
@@ -158,16 +187,14 @@ export default function Home() {
           <label>
             <input
               type="checkbox"
-              checked={note.services?.other}
-              onChange={(e) => {
-                /* handle checkbox change */
-              }}
+              checked={note.services.other}
+              onChange={handleOtherChange}
             />
             Other
           </label>
         </li>
         <li>
-          {note.services?.other && (
+          {note.services.other && (
             <div>
               <label>
                 Other comments:
