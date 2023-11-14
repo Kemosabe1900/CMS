@@ -1,5 +1,14 @@
+export interface Client {
+  // id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  address: string;
+}
+
 export interface Note {
-  id?: string;
+  // id?: string;
   clock_in?: string;
   clock_out?: string;
   employee_id?: string;
@@ -8,6 +17,7 @@ export interface Note {
   comments?: string;
   // other_comment?: string;
 }
+
 export interface Services {
   dressing: boolean;
   grooming: boolean;

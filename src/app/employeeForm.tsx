@@ -1,5 +1,7 @@
+"use client";
 import React, { useState } from "react";
 import { supabase } from "./supabase";
+
 import { Client } from "./types";
 
 const add_Client = () => {

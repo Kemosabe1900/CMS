@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { Note } from "./types";
 import { add_note } from "./supabase";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function Home() {
   const [comment, setComment] = useState("");
