@@ -1,7 +1,8 @@
 "use client";
 import { Note } from "./types";
-import { add_note } from "./supabase";
+import { add_note } from "@/app/supabase";
 import { useState } from "react";
+import NewEmployee from "./employeeForm";
 
 export default function Home() {
   const [comment, setComment] = useState("");
@@ -207,6 +208,8 @@ export default function Home() {
           )}
         </li>
       </ul>
+      <br />
+      <NewEmployee />
     </div>
   );
 }
