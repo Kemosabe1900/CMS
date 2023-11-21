@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { supabase } from "./supabase";
+import { add_employee } from "./supabase"; // Import the function from supabase
+import { Employee } from "./types";
 
-import { Client } from "./types";
-
-const add_Client = () => {
-  const [clientInfo, setClientInfo] = useState<Client>({
+export default function NewEmployee() {
+  // const[EmployeeInfo,setEmployeeInfo] = useState(" ")
+  const [EmployeeInfo, setEmployeeInfo] = useState<Employee>({
     first_name: "",
     last_name: "",
     email: "",
@@ -16,54 +16,23 @@ const add_Client = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    //create user in supabase
-    const { data, error } = await supabase.auth.signUp({
-      email: clientInfo.email,
-      password: "password",
-    });
+    try {
+      const result = await add_employee(EmployeeInfo);
 
-    if (error) {
-      console.error("Error creating user:", error.message);
-    } else {
-      console.log("User created!");
-      // data will contain information about the user, not data.user
-      // Add user information to the client table
-      const { data: clientData, error: clientError } = await supabase
-        .from("client")
-        .upsert([
-          {
-            first_name: clientInfo.first_name,
-            last_name: clientInfo.last_name,
-            email: clientInfo.email,
-            phone: clientInfo.phone,
-            address: clientInfo.address,
-            // Add other client information fields here if necessary
-          },
-        ]);
-
-      if (clientError) {
-        console.error(
-          "Error adding user to client table:",
-          clientError.message
-        );
+      if (result) {
+        console.log("Employee added to supabase successfully!");
       } else {
-        console.log("User added to client table:", clientData);
-
-        //Sernd account recovery email
-        const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-          clientInfo.email
-        );
-
-        if (resetError) {
-          console.error(
-            "Failed to send reset password link",
-            resetError.message
-          );
-        } else {
-          console.log("Password reset email set successfully!");
-        }
+        console.error("Failed to add employee to supabse");
       }
+    } catch (error: any) {
+      console.error(
+        "Error adding employee to the databse: ",
+        (error as Error)?.message ?? "Unknown error"
+      );
     }
+  };
+  const inputTextStyle = {
+    color: "black", // Change this to the desired color
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -71,10 +40,11 @@ const add_Client = () => {
         First Name:
         <input
           type="text"
-          value={clientInfo.first_name}
+          value={EmployeeInfo.first_name}
           onChange={(e) =>
-            setClientInfo({ ...clientInfo, first_name: e.target.value })
+            setEmployeeInfo({ ...EmployeeInfo, first_name: e.target.value })
           }
+          style={inputTextStyle} // Apply the style here
         />
       </label>
       <br />
@@ -82,10 +52,11 @@ const add_Client = () => {
         Last Name:
         <input
           type="text"
-          value={clientInfo.last_name}
+          value={EmployeeInfo.last_name}
           onChange={(e) =>
-            setClientInfo({ ...clientInfo, last_name: e.target.value })
+            setEmployeeInfo({ ...EmployeeInfo, last_name: e.target.value })
           }
+          style={inputTextStyle} // Apply the style here
         />
       </label>
       <br />
@@ -93,10 +64,11 @@ const add_Client = () => {
         Email:
         <input
           type="email"
-          value={clientInfo.email}
+          value={EmployeeInfo.email}
           onChange={(e) =>
-            setClientInfo({ ...clientInfo, email: e.target.value })
+            setEmployeeInfo({ ...EmployeeInfo, email: e.target.value })
           }
+          style={inputTextStyle} // Apply the style here
         />
       </label>
       <br />
@@ -104,10 +76,11 @@ const add_Client = () => {
         Phone:
         <input
           type="text"
-          value={clientInfo.phone}
+          value={EmployeeInfo.phone}
           onChange={(e) =>
-            setClientInfo({ ...clientInfo, phone: e.target.value })
+            setEmployeeInfo({ ...EmployeeInfo, phone: e.target.value })
           }
+          style={inputTextStyle} // Apply the style here
         />
       </label>
       <br />
@@ -115,16 +88,17 @@ const add_Client = () => {
         Address:
         <input
           type="text"
-          value={clientInfo.address}
+          value={EmployeeInfo.address}
           onChange={(e) =>
-            setClientInfo({ ...clientInfo, address: e.target.value })
+            setEmployeeInfo({ ...EmployeeInfo, address: e.target.value })
           }
+          style={inputTextStyle} // Apply the style here
         />
       </label>
       <br />
-      <button type="submit">Submit</button>
+      <button style={{ backgroundColor: "blue", color: "white" }} type="submit">
+        Submit
+      </button>
     </form>
   );
-};
-
-export default add_Client;
+}
