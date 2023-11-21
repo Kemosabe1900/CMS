@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { Note } from "./types";
 import { add_note } from "./supabase";
 import { useState } from "react";
