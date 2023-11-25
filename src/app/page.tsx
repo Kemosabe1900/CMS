@@ -8,7 +8,8 @@ export default function Home() {
   const [comment, setComment] = useState("");
 
   const [note, setNote] = useState<Note>({
-    client_id: "d0f67e95-4bc0-47d5-98d2-d21dbf4455e2",
+    employee_id: "d3e3ac67-4fd5-4a37-9d10-be0b73406a9f",
+    client_id: "fae14744-61ed-491d-a793-3b45f9c2ee29",
     services: {
       dressing: false,
       grooming: false,

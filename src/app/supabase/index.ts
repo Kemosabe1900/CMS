@@ -25,7 +25,10 @@ export async function add_employee(employeeInfo: Employee): Promise<boolean> {
   try {
     //employee alreayd exitsts check
     const { data: existingEmployee, error: existingEmployeeError } =
-      await supabase.from("client").select("*").eq("email", employeeInfo.email);
+      await supabase
+        .from("employee")
+        .select("*")
+        .eq("email", employeeInfo.email);
 
     if (existingEmployeeError) {
       console.error(
@@ -44,20 +47,22 @@ export async function add_employee(employeeInfo: Employee): Promise<boolean> {
     }
 
     //create a user in Supabase
-    const signUpResult = await supabase.auth.signUp({
+    const { data: authdata, error: autherror } = await supabase.auth.signUp({
       email: employeeInfo.email,
       password: "password",
     });
 
-    if (signUpResult.error) {
-      console.error("Error creating user: ", signUpResult.error.message);
+    if (autherror || !authdata?.user?.id) {
+      console.error("Error creating user: ", autherror?.message);
+      return false;
     }
 
     console.log("User created!");
 
-    //Add user into to client table
-    const { data, error } = await supabase.from("client").upsert([
+    //Add user into to employee table
+    const { data, error } = await supabase.from("employee").insert([
       {
+        id: authdata.user.id,
         first_name: employeeInfo.first_name,
         last_name: employeeInfo.last_name,
         email: employeeInfo.email,
@@ -67,7 +72,7 @@ export async function add_employee(employeeInfo: Employee): Promise<boolean> {
     ]);
 
     if (error) {
-      console.error("Error adding user to clients table: ", error.message);
+      console.error("Error adding user to employee table: ", error.message);
     }
 
     console.log("User added to client table: ", data);

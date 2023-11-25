@@ -34,6 +34,7 @@ export default function NewEmployee() {
   const inputTextStyle = {
     color: "black", // Change this to the desired color
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
