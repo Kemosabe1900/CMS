@@ -7,6 +7,15 @@ export interface Employee {
   address: string;
 }
 
+export interface Client {
+  // id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  address: string;
+}
+
 export interface Note {
   // id?: string;
   clock_in?: string;
