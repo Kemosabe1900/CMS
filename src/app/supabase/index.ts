@@ -1,6 +1,6 @@
+import { Services } from "./../types";
 import { createClient } from "@supabase/supabase-js";
 import { Note, Employee } from "../types";
-import { Fascinate } from "next/font/google";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -13,7 +13,24 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export async function add_note(note: Note): Promise<boolean> {
-  const { error, data } = await supabase.from("note").insert([note]).select();
+  const { services, ...restNote } = note;
+
+  const adjustedServices = {
+    ...services,
+    comments: services.other ? services.other_comment : null,
+  };
+  // comments: services.other ? services.other_comment : null,
+  //create adjested note odject
+  const adjustedNote = {
+    ...restNote,
+    services: adjustedServices,
+  };
+  console.log("Adjusted Note:", adjustedNote);
+
+  const { error, data } = await supabase
+    .from("note")
+    .insert([adjustedNote])
+    .select();
   if (error || !data) {
     console.log("Error", error);
     return false;
