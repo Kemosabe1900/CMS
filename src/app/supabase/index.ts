@@ -19,7 +19,7 @@ export async function add_note(note: Note): Promise<boolean> {
     ...services,
     comments: services.other ? services.other_comment : null,
   };
-  // comments: services.other ? services.other_comment : null,
+
   //create adjested note odject
   const adjustedNote = {
     ...restNote,

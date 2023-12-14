@@ -1,10 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { add_employee } from "../supabase"; // Import the function from supabase
+import { add_employee } from "../supabase";
 import { Employee } from "../types";
 
 export default function NewEmployee() {
-  // const[EmployeeInfo,setEmployeeInfo] = useState(" ")
   const [EmployeeInfo, setEmployeeInfo] = useState<Employee>({
     first_name: "",
     last_name: "",

@@ -45,8 +45,8 @@ export default function Home() {
       services: {
         ...prevNote.services,
         other: e.target.checked,
+        other_comment: e.target.checked ? prevNote.services.other_comment : "",
       },
-      other_comment: comment,
     }));
   };
 
