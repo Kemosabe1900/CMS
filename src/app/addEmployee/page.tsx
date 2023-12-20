@@ -1,3 +1,4 @@
+//addEmployee page
 "use client";
 import React, { useState } from "react";
 import { add_employee } from "../supabase";

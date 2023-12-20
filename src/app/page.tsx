@@ -1,6 +1,8 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const HomePage: React.FC = () => {
+  const router = useRouter();
   return (
     <div>
       <h1 className="text-center">Welcome to the home page</h1>
